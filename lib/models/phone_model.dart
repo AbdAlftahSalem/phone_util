@@ -9,8 +9,8 @@ class PhoneNumber {
   final String? isoCode;
 
   PhoneNumber({
-    required this.phoneNumber,
-    required this.dialCode,
-    required this.isoCode,
+    this.phoneNumber,
+    this.dialCode,
+    this.isoCode,
   });
 }

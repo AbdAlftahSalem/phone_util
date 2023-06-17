@@ -1,10 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phone_util/models/country_list.dart';
 import 'package:phone_util/models/country_model.dart';
+import 'package:phone_util/models/phone_model.dart';
 
 class PhoneInputController extends GetxController {
   late String dialCodeInit;
   Country? selectedCountry;
+  PhoneNumber phoneNumber = PhoneNumber();
 
   PhoneInputController(this.dialCodeInit);
 
@@ -17,15 +20,20 @@ class PhoneInputController extends GetxController {
 
       selectedCountry!.flagUri =
           'packages/phone_util/assets/images/flags/${selectedCountry?.alpha2Code?.toLowerCase()}.png';
-      print(selectedCountry!.flagUri);
     } else {
       throw Exception("Select dial code for start country");
     }
     update();
   }
 
-  changeSelectCountry(Country? inputCountry) {
-    selectedCountry = inputCountry;
+  onChangeInput(String valueInput, ValueChanged<PhoneNumber> onInputChanged) {
+    phoneNumber = PhoneNumber(
+      phoneNumber: "${selectedCountry?.dialCode}-$valueInput",
+      isoCode: "",
+      dialCode: selectedCountry?.dialCode,
+    );
+    onInputChanged(phoneNumber);
+
     update();
   }
 

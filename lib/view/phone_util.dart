@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phone_util/controller/phone_input_controller.dart';
+import 'package:phone_util/models/country_box.dart';
 import 'package:phone_util/models/phone_model.dart';
 
 class PhoneUtil extends StatelessWidget {
-  final ValueChanged<PhoneNumber>? onInputChanged;
+  final ValueChanged<PhoneNumber> onInputChanged;
   final ValueChanged<bool>? onInputValidated;
 
   final VoidCallback? onSubmit;
@@ -54,6 +55,7 @@ class PhoneUtil extends StatelessWidget {
   final String? dialCodeInit;
   final double separatedWidth;
   final TextEditingController? controller;
+  final CountryBox? countryDecoration;
 
   const PhoneUtil({
     Key? key,
@@ -96,6 +98,7 @@ class PhoneUtil extends StatelessWidget {
     this.countries,
     required this.separatedWidth,
     this.controller,
+    this.countryDecoration,
   }) : super(key: key);
 
   @override
@@ -105,11 +108,18 @@ class PhoneUtil extends StatelessWidget {
         builder: (ctrl) {
           return Row(
             children: [
-              Row(
-                children: [
-                  Image.asset(ctrl.selectedCountry!.flagUri),
-                  Text(ctrl.selectedCountry?.name ?? ""),
-                ],
+              Container(
+                decoration: countryDecoration?.boxDecoration,
+                child: Row(
+                  children: [
+                    Image.asset(
+                      ctrl.selectedCountry!.flagUri,
+                      width: countryDecoration?.imageWidth ?? 24,
+                      height: countryDecoration?.imageWidth ?? 24,
+                    ),
+                    Text(ctrl.selectedCountry?.name ?? ""),
+                  ],
+                ),
               ),
               SizedBox(width: separatedWidth),
               Expanded(
@@ -145,7 +155,7 @@ class PhoneUtil extends StatelessWidget {
                   //         )
                   //       : FilteringTextInputFormatter.digitsOnly,
                   // ],
-                  onChanged: (value) {},
+                  onChanged: (value)=> ctrl.onChangeInput(value, onInputChanged),
                 ),
               )
             ],
