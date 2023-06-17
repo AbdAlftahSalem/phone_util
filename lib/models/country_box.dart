@@ -1,12 +1,14 @@
 import 'package:flutter/widgets.dart';
 
 class CountryBox {
-  double? imageWidth, imageHeight;
+  double? boxWidth, boxHeight, imageWidth, imageHeight;
   Decoration? boxDecoration;
 
   CountryBox({
-    this.imageWidth = 24,
-    this.imageHeight = 24,
+    this.boxWidth = 150,
+    this.boxHeight = 20,
+    this.imageWidth = 20,
+    this.imageHeight = 30,
     this.boxDecoration,
   });
 }

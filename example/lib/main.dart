@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phone_util/models/country_box.dart';
 import 'package:phone_util/models/phone_model.dart';
 import 'package:phone_util/view/phone_util.dart';
 
@@ -18,6 +19,12 @@ class MyApp extends StatelessWidget {
         body: PhoneUtil(
           onInputChanged: (PhoneNumber value) => print(value.phoneNumber),
           separatedWidth: 12,
+          countryDecoration: CountryBox(
+            boxHeight: 50,
+            boxDecoration: const BoxDecoration(
+              color: Colors.red,
+            ),
+          ),
         ),
       ),
     );

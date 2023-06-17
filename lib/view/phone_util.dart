@@ -109,13 +109,16 @@ class PhoneUtil extends StatelessWidget {
           return Row(
             children: [
               Container(
+                width: countryDecoration?.boxWidth,
+                height: countryDecoration?.boxHeight,
                 decoration: countryDecoration?.boxDecoration,
                 child: Row(
                   children: [
                     Image.asset(
                       ctrl.selectedCountry!.flagUri,
-                      width: countryDecoration?.imageWidth ?? 24,
-                      height: countryDecoration?.imageWidth ?? 24,
+                      width: countryDecoration?.imageWidth,
+                      height: countryDecoration?.imageHeight,
+                      fit: BoxFit.contain,
                     ),
                     Text(ctrl.selectedCountry?.name ?? ""),
                   ],
@@ -155,7 +158,8 @@ class PhoneUtil extends StatelessWidget {
                   //         )
                   //       : FilteringTextInputFormatter.digitsOnly,
                   // ],
-                  onChanged: (value)=> ctrl.onChangeInput(value, onInputChanged),
+                  onChanged: (value) =>
+                      ctrl.onChangeInput(value, onInputChanged),
                 ),
               )
             ],
