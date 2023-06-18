@@ -6,7 +6,9 @@ import 'package:phone_util/models/country_list.dart';
 import 'package:phone_util/models/country_model.dart';
 import 'package:phone_util/models/phone_model.dart';
 
-enum PhoneInputSelectorType { DROPDOWN, BOTTOM_SHEET, DIALOG }
+import 'country_item_widget.dart';
+
+enum PhoneInputSelectorType { BOTTOM_SHEET, DIALOG }
 
 class PhoneUtil extends StatelessWidget {
   final ValueChanged<PhoneNumber> onInputChanged;
@@ -114,11 +116,18 @@ class PhoneUtil extends StatelessWidget {
         return Row(
           children: [
             InkWell(
-              onTap: () async {
-                await showCountrySelectorBottomSheet(
-                  countries: Countries.countryList,
-                  inheritedContext: context,
-                );
+              onTap: () {
+                if (countryBoxType == PhoneInputSelectorType.DIALOG) {
+                  showCountrySelectorDialog(
+                    inheritedContext: context,
+                    countries: Countries.countryList,
+                  );
+                } else {
+                  showCountrySelectorBottomSheet(
+                    countries: Countries.countryList,
+                    inheritedContext: context,
+                  );
+                }
               },
               child: Container(
                 width: countryDecoration?.boxWidth,
@@ -156,8 +165,7 @@ class PhoneUtil extends StatelessWidget {
                 onFieldSubmitted: onFieldSubmitted,
                 autovalidateMode: autoValidateMode,
                 autofillHints: autofillHints,
-                // validator: validator ?? state.validator,
-                // onSaved: state.onSaved,
+                validator: validator,
                 scrollPadding: scrollPadding,
                 // inputFormatters: [
                 //   LengthLimitingTextInputFormatter(widget.maxLength),
@@ -246,26 +254,9 @@ class PhoneUtil extends StatelessWidget {
                                   country = logic.filterCountry[index];
                                 }
 
-                                return ListTile(
-                                  // key: Key(TestHelper.countryItemKeyValue(country.alpha2Code)),
-                                  leading: const Text("leading"),
-                                  title: Align(
-                                    alignment: AlignmentDirectional.centerStart,
-                                    child: Text(
-                                      country.name ?? "",
-                                      textDirection: Directionality.of(context),
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ),
-                                  subtitle: Align(
-                                    alignment: AlignmentDirectional.centerStart,
-                                    child: Text(
-                                      country.dialCode ?? '',
-                                      textDirection: TextDirection.ltr,
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  ),
-                                  onTap: () => logic.changeSelectCountry(
+                                return CountryItemWidget(
+                                  country: country,
+                                  onChangeCountry: (context, newCountry) => logic.changeSelectCountry(
                                     newCountry: country,
                                     context: context,
                                   ),
@@ -283,6 +274,66 @@ class PhoneUtil extends StatelessWidget {
           ]);
         });
       },
+    );
+  }
+
+  Future<Country?> showCountrySelectorDialog(
+      {required BuildContext inheritedContext,
+      required List<Map<String, dynamic>> countries}) {
+    return showDialog(
+      context: inheritedContext,
+      barrierDismissible: true,
+      builder: (BuildContext context) => AlertDialog(
+        content: Directionality(
+          textDirection: Directionality.of(inheritedContext),
+          child: GetBuilder<PhoneInputController>(builder: (logic) {
+            return SizedBox(
+              width: double.maxFinite,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: TextFormField(
+                      decoration: inputDecoration,
+                      autofocus: autoFocus,
+                      onChanged: (value) => logic.filterCountryMethod(value),
+                    ),
+                  ),
+                  Flexible(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: logic.filterCountry.isEmpty &&
+                              logic.searchCountryString.isEmpty
+                          ? Countries.countryList.length
+                          : logic.filterCountry.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        late Country country;
+                        if (logic.filterCountry.isEmpty) {
+                          country = Country.fromJson(
+                            Countries.countryList[index],
+                          );
+                        } else {
+                          country = logic.filterCountry[index];
+                        }
+
+                        return CountryItemWidget(
+                          country: country,
+                          onChangeCountry: logic.changeSelectCountry(
+                            newCountry: country,
+                            context: context,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ),
+      ),
     );
   }
 }

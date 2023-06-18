@@ -29,6 +29,19 @@ class PhoneInputController extends GetxController {
       {required Country newCountry, required BuildContext context}) {
     selectedCountry = newCountry;
 
+    if ((phoneNumber.phoneNumber ?? "").isNotEmpty &&
+        (phoneNumber.phoneNumber ?? "").contains("-")) {
+      String newPhoneNumber =
+          "${selectedCountry?.dialCode}-${phoneNumber.phoneNumber!.toLowerCase().split("-")[1]}";
+      phoneNumber = PhoneNumber(
+        phoneNumber: newPhoneNumber,
+        isoCode: "",
+        dialCode: selectedCountry?.dialCode,
+      );
+    }
+
+    print(phoneNumber.phoneNumber);
+
     update();
     Navigator.pop(context);
   }

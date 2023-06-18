@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
               color: Colors.teal,
             ),
           ),
+          countryBoxType: PhoneInputSelectorType.BOTTOM_SHEET,
         ),
       ),
     );
