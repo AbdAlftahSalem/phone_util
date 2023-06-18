@@ -62,6 +62,8 @@ class PhoneUtil extends StatelessWidget {
   final TextEditingController? controller;
   final CountryBox? countryDecoration;
   final PhoneInputSelectorType countryBoxType;
+  final TextStyle? countryTextStyle;
+  final double separateBetweenFlanAndCountryName;
 
   const PhoneUtil({
     Key? key,
@@ -104,8 +106,10 @@ class PhoneUtil extends StatelessWidget {
     this.countries,
     required this.separatedWidth,
     this.controller,
-    this.countryDecoration,
+    required this.countryDecoration,
     this.countryBoxType = PhoneInputSelectorType.BOTTOM_SHEET,
+    this.countryTextStyle,
+    this.separateBetweenFlanAndCountryName = 12,
   }) : super(key: key);
 
   @override
@@ -135,13 +139,23 @@ class PhoneUtil extends StatelessWidget {
                 decoration: countryDecoration?.boxDecoration,
                 child: Row(
                   children: [
-                    Image.asset(
-                      ctrl.selectedCountry!.flagUri,
-                      width: countryDecoration?.imageWidth,
-                      height: countryDecoration?.imageHeight,
-                      fit: BoxFit.contain,
-                    ),
-                    Text(ctrl.selectedCountry?.name ?? ""),
+                    countryDecoration!.showCountryFlag
+                        ? Image.asset(
+                            ctrl.selectedCountry!.flagUri,
+                            width: countryDecoration?.imageWidth,
+                            height: countryDecoration?.imageHeight,
+                            fit: BoxFit.contain,
+                          )
+                        : const SizedBox.shrink(),
+                    SizedBox(width: separateBetweenFlanAndCountryName),
+                    countryDecoration!.showCountryName
+                        ? Text(ctrl.selectedCountry?.name ?? "",
+                            style: countryTextStyle)
+                        : const SizedBox.shrink(),
+                    countryDecoration!.showCountryDialCode
+                        ? Text(ctrl.selectedCountry?.dialCode ?? "",
+                        style: countryTextStyle)
+                        : const SizedBox.shrink(),
                   ],
                 ),
               ),
@@ -256,7 +270,8 @@ class PhoneUtil extends StatelessWidget {
 
                                 return CountryItemWidget(
                                   country: country,
-                                  onChangeCountry: (context, newCountry) => logic.changeSelectCountry(
+                                  onChangeCountry: (context, newCountry) =>
+                                      logic.changeSelectCountry(
                                     newCountry: country,
                                     context: context,
                                   ),

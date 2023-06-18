@@ -40,8 +40,6 @@ class PhoneInputController extends GetxController {
       );
     }
 
-    print(phoneNumber.phoneNumber);
-
     update();
     Navigator.pop(context);
   }

@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
           separatedWidth: 12,
           countryDecoration: CountryBox(
             boxHeight: 50,
-            boxDecoration: const BoxDecoration(
-              color: Colors.teal,
-            ),
+            // boxDecoration: const BoxDecoration(
+            //   color: Colors.teal,
+            // ),
           ),
           countryBoxType: PhoneInputSelectorType.BOTTOM_SHEET,
         ),
