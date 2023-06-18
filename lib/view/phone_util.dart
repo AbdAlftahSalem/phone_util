@@ -154,7 +154,7 @@ class PhoneUtil extends StatelessWidget {
                         : const SizedBox.shrink(),
                     countryDecoration!.showCountryDialCode
                         ? Text(ctrl.selectedCountry?.dialCode ?? "",
-                        style: countryTextStyle)
+                            style: countryTextStyle)
                         : const SizedBox.shrink(),
                   ],
                 ),
@@ -335,7 +335,8 @@ class PhoneUtil extends StatelessWidget {
 
                         return CountryItemWidget(
                           country: country,
-                          onChangeCountry: logic.changeSelectCountry(
+                          onChangeCountry: (context, newCountry) =>
+                              logic.changeSelectCountry(
                             newCountry: country,
                             context: context,
                           ),
