@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
           countryDecoration: CountryBox(
             boxHeight: 50,
             boxDecoration: const BoxDecoration(
-              color: Colors.red,
+              color: Colors.teal,
             ),
           ),
         ),

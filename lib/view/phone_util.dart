@@ -118,7 +118,6 @@ class PhoneUtil extends StatelessWidget {
                 await showCountrySelectorBottomSheet(
                   countries: Countries.countryList,
                   inheritedContext: context,
-                  onChangeCountry: (x) {},
                 );
               },
               child: Container(
@@ -183,11 +182,11 @@ class PhoneUtil extends StatelessWidget {
 
   Future<Country?> showCountrySelectorBottomSheet(
       {required BuildContext inheritedContext,
-      required List<Map<String, dynamic>> countries,
-      required Function(Country x) onChangeCountry}) {
+      required List<Map<String, dynamic>> countries}) {
     return showModalBottomSheet(
       context: inheritedContext,
       clipBehavior: Clip.hardEdge,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -266,31 +265,11 @@ class PhoneUtil extends StatelessWidget {
                                       textAlign: TextAlign.start,
                                     ),
                                   ),
-                                  onTap: () => onChangeCountry(country),
+                                  onTap: () => logic.changeSelectCountry(
+                                    newCountry: country,
+                                    context: context,
+                                  ),
                                 );
-                                // return ListTile(
-                                //   key: Key(TestHelper.countryItemKeyValue(country.alpha2Code)),
-                                //   leading: widget.showFlags!
-                                //       ? _Flag(country: country, useEmoji: widget.useEmoji)
-                                //       : null,
-                                //   title: Align(
-                                //     alignment: AlignmentDirectional.centerStart,
-                                //     child: Text(
-                                //       '${Utils.getCountryName(country, widget.locale)}',
-                                //       textDirection: Directionality.of(context),
-                                //       textAlign: TextAlign.start,
-                                //     ),
-                                //   ),
-                                //   subtitle: Align(
-                                //     alignment: AlignmentDirectional.centerStart,
-                                //     child: Text(
-                                //       '${country.dialCode ?? ''}',
-                                //       textDirection: TextDirection.ltr,
-                                //       textAlign: TextAlign.start,
-                                //     ),
-                                //   ),
-                                //   onTap: () => Navigator.of(context).pop(country),
-                                // );
                               },
                             ),
                           ),

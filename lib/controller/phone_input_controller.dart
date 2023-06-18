@@ -19,13 +19,18 @@ class PhoneInputController extends GetxController {
         .isNotEmpty) {
       selectedCountry = Country.fromJson(Countries.countryList
           .firstWhere((element) => element["dial_code"] == dialCodeInit));
-
-      selectedCountry!.flagUri =
-          'packages/phone_util/assets/images/flags/${selectedCountry?.alpha2Code?.toLowerCase()}.png';
     } else {
       throw Exception("Select dial code for start country");
     }
     update();
+  }
+
+  changeSelectCountry(
+      {required Country newCountry, required BuildContext context}) {
+    selectedCountry = newCountry;
+
+    update();
+    Navigator.pop(context);
   }
 
   onChangeInput(String valueInput, ValueChanged<PhoneNumber> onInputChanged) {
