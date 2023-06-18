@@ -8,6 +8,8 @@ class PhoneInputController extends GetxController {
   late String dialCodeInit;
   Country? selectedCountry;
   PhoneNumber phoneNumber = PhoneNumber();
+  List<Country> filterCountry = [];
+  String searchCountryString = "";
 
   PhoneInputController(this.dialCodeInit);
 
@@ -34,6 +36,22 @@ class PhoneInputController extends GetxController {
     );
     onInputChanged(phoneNumber);
 
+    update();
+  }
+
+  void filterCountryMethod(String inputCountrySearch) {
+    filterCountry = [];
+    searchCountryString = inputCountrySearch;
+    final filterCountryMap = Countries.countryList
+        .where((element) => element["en_short_name"]
+            .toString()
+            .toLowerCase()
+            .contains(inputCountrySearch.toLowerCase()))
+        .toList();
+
+    for (var i in filterCountryMap) {
+      filterCountry.add(Country.fromJson(i));
+    }
     update();
   }
 
