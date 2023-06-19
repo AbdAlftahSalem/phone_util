@@ -39,7 +39,7 @@ class PhoneInputController extends GetxController {
         dialCode: selectedCountry?.dialCode,
       );
     }
-
+    resetFilter();
     update();
     Navigator.pop(context);
   }
@@ -56,7 +56,7 @@ class PhoneInputController extends GetxController {
   }
 
   void filterCountryMethod(String inputCountrySearch) {
-    filterCountry = [];
+    resetFilter();
     searchCountryString = inputCountrySearch;
     final filterCountryMap = Countries.countryList
         .where((element) => element["en_short_name"]
@@ -68,6 +68,12 @@ class PhoneInputController extends GetxController {
     for (var i in filterCountryMap) {
       filterCountry.add(Country.fromJson(i));
     }
+    update();
+  }
+
+  void resetFilter() {
+    filterCountry = [];
+    searchCountryString = "";
     update();
   }
 

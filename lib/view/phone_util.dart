@@ -223,7 +223,12 @@ class PhoneUtil extends StatelessWidget {
       builder: (BuildContext context) {
         return GetBuilder<PhoneInputController>(builder: (logic) {
           return Stack(children: [
-            GestureDetector(onTap: () => Navigator.pop(context)),
+            GestureDetector(
+              onTap: () {
+                logic.resetFilter();
+                Navigator.pop(context);
+              },
+            ),
             Padding(
               padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom,
@@ -255,39 +260,7 @@ class PhoneUtil extends StatelessWidget {
                                   logic.filterCountryMethod(value),
                             ),
                           ),
-                          Flexible(
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: logic.filterCountry.isEmpty &&
-                                      logic.searchCountryString.isEmpty
-                                  ? Countries.countryList.length
-                                  : logic.filterCountry.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                late Country country;
-                                if (logic.filterCountry.isEmpty) {
-                                  country = Country.fromJson(
-                                    Countries.countryList[index],
-                                  );
-                                } else {
-                                  country = logic.filterCountry[index];
-                                }
-
-                                return CountryItemWidget(
-                                  country: country,
-                                  onChangeCountry: (context, newCountry) {
-                                    if (onChangedCountry == null) {
-                                      logic.changeSelectCountry(
-                                        newCountry: country,
-                                        context: context,
-                                      );
-                                    } else {
-                                      onChangedCountry!(newCountry);
-                                    }
-                                  },
-                                );
-                              },
-                            ),
-                          ),
+                          showCountryWithSearch(logic),
                         ],
                       ),
                     ),
@@ -301,12 +274,48 @@ class PhoneUtil extends StatelessWidget {
     );
   }
 
+  Flexible showCountryWithSearch(PhoneInputController logic) {
+    return Flexible(
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount:
+            logic.filterCountry.isEmpty && logic.searchCountryString.isEmpty
+                ? Countries.countryList.length
+                : logic.filterCountry.length,
+        itemBuilder: (BuildContext context, int index) {
+          late Country country;
+          if (logic.filterCountry.isEmpty) {
+            country = Country.fromJson(
+              Countries.countryList[index],
+            );
+          } else {
+            country = logic.filterCountry[index];
+          }
+
+          return CountryItemWidget(
+            country: country,
+            onChangeCountry: (context, newCountry) {
+              if (onChangedCountry == null) {
+                logic.changeSelectCountry(
+                  newCountry: country,
+                  context: context,
+                );
+              } else {
+                onChangedCountry!(newCountry);
+              }
+            },
+          );
+        },
+      ),
+    );
+  }
+
   Future<Country?> showCountrySelectorDialog(
       {required BuildContext inheritedContext,
       required List<Map<String, dynamic>> countries}) {
     return showDialog(
       context: inheritedContext,
-      barrierDismissible: true,
+      barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
         content: Directionality(
           textDirection: Directionality.of(inheritedContext),
@@ -325,39 +334,7 @@ class PhoneUtil extends StatelessWidget {
                       onChanged: (value) => logic.filterCountryMethod(value),
                     ),
                   ),
-                  Flexible(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: logic.filterCountry.isEmpty &&
-                              logic.searchCountryString.isEmpty
-                          ? Countries.countryList.length
-                          : logic.filterCountry.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        late Country country;
-                        if (logic.filterCountry.isEmpty) {
-                          country = Country.fromJson(
-                            Countries.countryList[index],
-                          );
-                        } else {
-                          country = logic.filterCountry[index];
-                        }
-
-                        return CountryItemWidget(
-                          country: country,
-                          onChangeCountry: (context, newCountry) {
-                            if (onChangedCountry == null) {
-                              logic.changeSelectCountry(
-                                newCountry: country,
-                                context: context,
-                              );
-                            } else {
-                              onChangedCountry!(newCountry);
-                            }
-                          },
-                        );
-                      },
-                    ),
-                  ),
+                  showCountryWithSearch(logic),
                 ],
               ),
             );
