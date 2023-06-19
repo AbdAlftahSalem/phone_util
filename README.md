@@ -45,7 +45,7 @@ Or you can use the command to add dio as a dependency with the latest stable ver
 ```dart
 import 'package:phone_util/view/phone_util.dart';
 
-@PhoneUtil(
+PhoneUtil(
   onInputChanged: (PhoneNumber value) {},
   countryBoxType: PhoneInputSelectorType.BOTTOM_SHEET,
   separatedWidth: 12,
