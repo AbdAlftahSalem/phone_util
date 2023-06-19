@@ -24,9 +24,21 @@ class MyApp extends StatelessWidget {
             children: [
               PhoneUtil(
                 onInputChanged: (PhoneNumber value) => print(value.phoneNumber),
-                separatedWidth: 0,
+                separatedWidth: 12,
                 countryDecoration: CountryBox(
                   boxHeight: 50,
+                  boxDecoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.05),
+                        spreadRadius: 5,
+                        blurRadius: 0,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(12)
+                  ),
                 ),
                 inputDecoration: InputDecoration(
                   fillColor: Colors.white10,
@@ -64,12 +76,6 @@ class MyApp extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 20),
-              TextButton(
-                onPressed: () {
-                  print(_formKey.currentState!.validate());
-                },
-                child: const Text("Validate .."),
-              )
             ],
           ),
         ),

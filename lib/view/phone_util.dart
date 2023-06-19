@@ -136,9 +136,11 @@ class PhoneUtil extends StatelessWidget {
                 }
               },
               child: Container(
-                width: countryDecoration?.boxWidth,
                 height: countryDecoration?.boxHeight,
                 decoration: countryDecoration?.boxDecoration,
+                padding: EdgeInsets.symmetric(
+                  horizontal: countryDecoration!.horizontalCountryPadding!,
+                ),
                 child: Row(
                   children: [
                     countryDecoration!.showCountryFlag

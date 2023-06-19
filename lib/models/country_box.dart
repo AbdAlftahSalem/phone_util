@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 
 class CountryBox {
-  double? boxWidth, boxHeight, imageWidth, imageHeight;
+  double? horizontalCountryPadding, boxHeight, imageWidth, imageHeight;
   Decoration? boxDecoration;
-  bool showCountryFlag, showCountryDialCode ,showCountryName;
+  bool showCountryFlag, showCountryDialCode, showCountryName;
 
   CountryBox({
-    this.boxWidth = 150,
+    this.horizontalCountryPadding = 16,
     this.boxHeight = 20,
     this.imageWidth = 20,
     this.imageHeight = 30,
