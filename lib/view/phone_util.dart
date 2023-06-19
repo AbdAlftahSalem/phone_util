@@ -61,7 +61,7 @@ class PhoneUtil extends StatelessWidget {
   final String? dialCodeInit;
   final double separatedWidth;
   final TextEditingController? controller;
-  final CountryBox? countryDecoration;
+  final CountryBox countryDecoration;
   final PhoneInputSelectorType countryBoxType;
   final TextStyle? countryTextStyle;
   final double separateBetweenFlanAndCountryName;
@@ -105,7 +105,7 @@ class PhoneUtil extends StatelessWidget {
     this.autofillHints,
     this.dialCodeInit,
     this.countries,
-    required this.separatedWidth,
+    this.separatedWidth = 0,
     this.controller,
     required this.countryDecoration,
     this.countryBoxType = PhoneInputSelectorType.BOTTOM_SHEET,
@@ -136,27 +136,27 @@ class PhoneUtil extends StatelessWidget {
                 }
               },
               child: Container(
-                height: countryDecoration?.boxHeight,
-                decoration: countryDecoration?.boxDecoration,
+                height: countryDecoration.boxHeight,
+                decoration: countryDecoration.boxDecoration,
                 padding: EdgeInsets.symmetric(
-                  horizontal: countryDecoration!.horizontalCountryPadding!,
+                  horizontal: countryDecoration.horizontalCountryPadding!,
                 ),
                 child: Row(
                   children: [
-                    countryDecoration!.showCountryFlag
+                    countryDecoration.showCountryFlag
                         ? Image.asset(
                             ctrl.selectedCountry!.flagUri,
-                            width: countryDecoration?.imageWidth,
-                            height: countryDecoration?.imageHeight,
+                            width: countryDecoration.imageWidth,
+                            height: countryDecoration.imageHeight,
                             fit: BoxFit.contain,
                           )
                         : const SizedBox.shrink(),
                     SizedBox(width: separateBetweenFlanAndCountryName),
-                    countryDecoration!.showCountryName
+                    countryDecoration.showCountryName
                         ? Text(ctrl.selectedCountry?.name ?? "",
                             style: countryTextStyle)
                         : const SizedBox.shrink(),
-                    countryDecoration!.showCountryDialCode
+                    countryDecoration.showCountryDialCode
                         ? Text(ctrl.selectedCountry?.dialCode ?? "",
                             style: countryTextStyle)
                         : const SizedBox.shrink(),
