@@ -52,6 +52,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           countryBoxType: PhoneInputSelectorType.BOTTOM_SHEET,
+          onChangedCountry: (value) => print(value),
         ),
       ),
     );

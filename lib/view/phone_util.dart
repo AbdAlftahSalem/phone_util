@@ -12,6 +12,7 @@ enum PhoneInputSelectorType { BOTTOM_SHEET, DIALOG }
 
 class PhoneUtil extends StatelessWidget {
   final ValueChanged<PhoneNumber> onInputChanged;
+  final ValueChanged<Country>? onChangedCountry;
   final ValueChanged<bool>? onInputValidated;
 
   final VoidCallback? onSubmit;
@@ -110,6 +111,7 @@ class PhoneUtil extends StatelessWidget {
     this.countryBoxType = PhoneInputSelectorType.BOTTOM_SHEET,
     this.countryTextStyle,
     this.separateBetweenFlanAndCountryName = 12,
+    this.onChangedCountry,
   }) : super(key: key);
 
   @override
@@ -270,11 +272,16 @@ class PhoneUtil extends StatelessWidget {
 
                                 return CountryItemWidget(
                                   country: country,
-                                  onChangeCountry: (context, newCountry) =>
+                                  onChangeCountry: (context, newCountry) {
+                                    if (onChangedCountry == null) {
                                       logic.changeSelectCountry(
-                                    newCountry: country,
-                                    context: context,
-                                  ),
+                                        newCountry: country,
+                                        context: context,
+                                      );
+                                    } else {
+                                      onChangedCountry!(newCountry);
+                                    }
+                                  },
                                 );
                               },
                             ),
@@ -335,11 +342,16 @@ class PhoneUtil extends StatelessWidget {
 
                         return CountryItemWidget(
                           country: country,
-                          onChangeCountry: (context, newCountry) =>
+                          onChangeCountry: (context, newCountry) {
+                            if (onChangedCountry == null) {
                               logic.changeSelectCountry(
-                            newCountry: country,
-                            context: context,
-                          ),
+                                newCountry: country,
+                                context: context,
+                              );
+                            } else {
+                              onChangedCountry!(newCountry);
+                            }
+                          },
                         );
                       },
                     ),
