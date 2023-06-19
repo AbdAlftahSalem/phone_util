@@ -11,7 +11,7 @@ you can manually add phone)util into the dependencies section in your pubspec.ya
     phone_util: ^replace-with-latest-version
 ```
 
-Or you can use the command to add dio as a dependency with the latest stable version:
+Or you can use the command to add phone_util as a dependency with the latest stable version:
 
 ```bash
   dart pub phone_util 
