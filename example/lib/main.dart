@@ -3,10 +3,12 @@ import 'package:phone_util/models/country_box.dart';
 import 'package:phone_util/models/phone_model.dart';
 import 'package:phone_util/view/phone_util.dart';
 
-void main() => runApp(const MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final _formKey = GlobalKey<FormState>();
+
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,43 +18,60 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Material App Bar'),
         ),
-        body: PhoneUtil(
-          onInputChanged: (PhoneNumber value) => print(value.phoneNumber),
-          separatedWidth: 0,
-          countryDecoration: CountryBox(
-            boxHeight: 50,
-            boxDecoration: const BoxDecoration(
-              color: Colors.teal,
-            ),
+        body: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              PhoneUtil(
+                onInputChanged: (PhoneNumber value) => print(value.phoneNumber),
+                separatedWidth: 0,
+                countryDecoration: CountryBox(
+                  boxHeight: 50,
+                ),
+                inputDecoration: InputDecoration(
+                  fillColor: Colors.white10,
+                  filled: true,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(
+                      color: Colors.teal,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(
+                      color: Colors.teal,
+                    ),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: const BorderSide(
+                      color: Colors.red,
+                    ),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 18,
+                  ),
+                ),
+                countryBoxType: PhoneInputSelectorType.BOTTOM_SHEET,
+                validator: (p0) {
+                  if ((p0 ?? "").isEmpty) {
+                    return "III";
+                  } else {
+                    return null;
+                  }
+                },
+              ),
+              const SizedBox(height: 20),
+              TextButton(
+                onPressed: () {
+                  print(_formKey.currentState!.validate());
+                },
+                child: const Text("Validate .."),
+              )
+            ],
           ),
-          inputDecoration: InputDecoration(
-            fillColor: Colors.teal,
-            filled: true,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(
-                color: Colors.white,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(
-                color: Colors.white,
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: const BorderSide(
-                color: Colors.white,
-              ),
-            ),
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 18,
-            ),
-          ),
-          countryBoxType: PhoneInputSelectorType.BOTTOM_SHEET,
-          onChangedCountry: (value) => print(value),
         ),
       ),
     );
