@@ -1,12 +1,10 @@
 # phone_util
 
-This pakage help you to build phone input filed with easy step ,
-you can change country and seperate country box style as you want and phone input field as you want
-. you can add empty space between country and phone field.
+This package helps you to build a phone input field with easy steps, you can change the country and separate the country box style as you want and the phone input field as you want. you can add empty space between the country and phone field.
 
 ## Deployment
 
-you can manually add dio into the dependencies section in your pubspec.yaml:
+you can manually add phone)util into the dependencies section in your pubspec.yaml:
 
 ```bash
   dependencies:
