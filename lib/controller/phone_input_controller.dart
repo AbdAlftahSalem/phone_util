@@ -19,13 +19,14 @@ class PhoneInputController extends GetxController {
   });
 
   getInitCountry() {
-    if (Countries.countryList
+    if (showCountry
         .where((element) => element["dial_code"] == dialCodeInit)
         .isNotEmpty) {
-      selectedCountry = Country.fromJson(Countries.countryList
+      selectedCountry = Country.fromJson(showCountry
           .firstWhere((element) => element["dial_code"] == dialCodeInit));
     } else {
-      throw Exception("Select dial code for start country");
+      throw Exception(
+          "Select dial code for start country is not in countries data");
     }
     update();
   }
@@ -105,7 +106,7 @@ class PhoneInputController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getInitCountry();
     checkInputCountries();
+    getInitCountry();
   }
 }
