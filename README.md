@@ -2,7 +2,7 @@
 
 This package helps you to build a phone input field with easy steps, you can change the country and separate the country box style as you want and the phone input field as you want. you can add empty space between the country and phone field.
 
-## Deployment
+## installation
 
 you can manually add phone)util into the dependencies section in your pubspec.yaml:
 
