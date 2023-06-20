@@ -1,7 +1,7 @@
 name: phone_util
 description: Helps you to build a phone input field with easy steps, you can change the country and separate the country box style as you want and the phone input field as you want. you can add empty space between the country and phone field..
-version: 0.0.2
-repository: https://github.com/AbdAlftahSalem/Random-library.git
+version: 0.0.3
+repository: https://github.com/AbdAlftahSalem/phone_util.git
 homepage: https://github.com/AbdAlftahSalem/phone_util.git
 
 environment:
