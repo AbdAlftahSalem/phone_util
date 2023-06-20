@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:phone_util/controller/phone_input_controller.dart';
 import 'package:phone_util/models/country_box.dart';
-import 'package:phone_util/models/country_list.dart';
 import 'package:phone_util/models/country_model.dart';
 import 'package:phone_util/models/phone_model.dart';
 
@@ -117,7 +116,10 @@ class PhoneUtil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PhoneInputController>(
-      init: PhoneInputController(dialCodeInit ?? "+970"),
+      init: PhoneInputController(
+        dialCodeInit: dialCodeInit ?? "+970",
+        countriesInput: countries ?? [],
+      ),
       builder: (ctrl) {
         return Row(
           children: [
@@ -126,11 +128,11 @@ class PhoneUtil extends StatelessWidget {
                 if (countryBoxType == PhoneInputSelectorType.DIALOG) {
                   showCountrySelectorDialog(
                     inheritedContext: context,
-                    countries: Countries.countryList,
+                    countries: ctrl.showCountry,
                   );
                 } else {
                   showCountrySelectorBottomSheet(
-                    countries: Countries.countryList,
+                    countries: ctrl.showCountry,
                     inheritedContext: context,
                   );
                 }
@@ -274,29 +276,29 @@ class PhoneUtil extends StatelessWidget {
     );
   }
 
-  Flexible showCountryWithSearch(PhoneInputController logic) {
+  Flexible showCountryWithSearch(PhoneInputController ctrl) {
     return Flexible(
       child: ListView.builder(
         shrinkWrap: true,
         itemCount:
-            logic.filterCountry.isEmpty && logic.searchCountryString.isEmpty
-                ? Countries.countryList.length
-                : logic.filterCountry.length,
+            ctrl.filterCountry.isEmpty && ctrl.searchCountryString.isEmpty
+                ? ctrl.showCountry.length
+                : ctrl.filterCountry.length,
         itemBuilder: (BuildContext context, int index) {
           late Country country;
-          if (logic.filterCountry.isEmpty) {
+          if (ctrl.filterCountry.isEmpty) {
             country = Country.fromJson(
-              Countries.countryList[index],
+              ctrl.showCountry[index],
             );
           } else {
-            country = logic.filterCountry[index];
+            country = ctrl.filterCountry[index];
           }
 
           return CountryItemWidget(
             country: country,
             onChangeCountry: (context, newCountry) {
               if (onChangedCountry == null) {
-                logic.changeSelectCountry(
+                ctrl.changeSelectCountry(
                   newCountry: country,
                   context: context,
                 );

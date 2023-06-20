@@ -4,7 +4,7 @@ This package helps you to build a phone input field with easy steps, you can cha
 
 ## installation
 
-you can manually add phone)util into the dependencies section in your pubspec.yaml:
+you can manually add phone_util into the dependencies section in your pubspec.yaml:
 
 ```bash
   dependencies:
@@ -36,7 +36,7 @@ Or you can use the command to add phone_util as a dependency with the latest sta
 | Parameter         | Type                            | Description                     |
 |:------------------|:--------------------------------|:--------------------------------|
 | onInputChanged    | `Function( PhoneNumber value )` | To get every number input       |
-| countryDecoration | CountryBox                      | To add style to the country box |
+| countryDecoration | `CountryBox`                    | To add style to the country box |
 
 ## Example
 
