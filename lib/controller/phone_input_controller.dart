@@ -10,18 +10,44 @@ class PhoneInputController extends GetxController {
   PhoneNumber phoneNumber = PhoneNumber();
   List<Country> filterCountry = [];
   String searchCountryString = "";
+  List<String> countriesInput = [];
+  List<Map<String, dynamic>> showCountry = [];
 
-  PhoneInputController(this.dialCodeInit);
+  PhoneInputController({
+    required this.dialCodeInit,
+    required this.countriesInput,
+  });
 
   getInitCountry() {
-    if (Countries.countryList
+    if (showCountry
         .where((element) => element["dial_code"] == dialCodeInit)
         .isNotEmpty) {
-      selectedCountry = Country.fromJson(Countries.countryList
+      selectedCountry = Country.fromJson(showCountry
           .firstWhere((element) => element["dial_code"] == dialCodeInit));
     } else {
-      throw Exception("Select dial code for start country");
+      throw Exception(
+          "Select dial code for start country is not in countries data");
     }
+    update();
+  }
+
+  checkInputCountries() {
+    if (countriesInput.isEmpty) {
+      showCountry = Countries.countryList;
+    } else {
+      for (var i in countriesInput) {
+        List<Map<String, dynamic>> countriesFiltered = Countries.countryList
+            .where((element) => element["alpha_2_code"] == i.toUpperCase())
+            .toList();
+
+        if (countriesFiltered.isNotEmpty) {
+          showCountry.add(countriesFiltered[0]);
+        } else {
+          throw Exception("$i code not found .....");
+        }
+      }
+    }
+
     update();
   }
 
@@ -58,7 +84,7 @@ class PhoneInputController extends GetxController {
   void filterCountryMethod(String inputCountrySearch) {
     resetFilter();
     searchCountryString = inputCountrySearch;
-    final filterCountryMap = Countries.countryList
+    final filterCountryMap = showCountry
         .where((element) => element["en_short_name"]
             .toString()
             .toLowerCase()
@@ -80,6 +106,7 @@ class PhoneInputController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    checkInputCountries();
     getInitCountry();
   }
 }

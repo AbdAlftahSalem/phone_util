@@ -53,6 +53,7 @@ class MyApp extends StatelessWidget {
                   ),
                 ),
                 countryDecoration: CountryBox(),
+                countries: const ["PS" , "AF", "AX" , "IS"],
               ),
               const SizedBox(height: 20),
             ],
